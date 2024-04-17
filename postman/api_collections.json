@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "eb3af039-582c-4599-81dc-87a1415b2193",
+		"name": "Scaler_Fakestore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34321804"
+	},
+	"item": [
+		{
+			"name": "Get Detail By id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/products/1"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/products"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/categories"
+			},
+			"response": []
+		},
+		{
+			"name": "Update the Product",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"title\": \"test product\",\n    \"price\": 13.5,\n    \"description\": \"lorem ipsum set\",\n    \"image\": \"https://i.pravatar.cc\",\n    \"category\": \"electronic\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/productds/7"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"title\": \"Create Product\",\n    \"price\": 120.5,\n    \"description\": \"Sample New Product\",\n    \"image\": \"https://i.pravatar.cc\",\n    \"category\": \"Sample\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{BASE_URL}}/products"
+			},
+			"response": []
+		}
+	]
+}
