@@ -5,6 +5,9 @@ import com.example.productservice.models.Product;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Fake store product dto.
+ */
 @Builder
 @Data
 public class FakeStoreProductDTO {
@@ -16,6 +19,11 @@ public class FakeStoreProductDTO {
     private String image;
 
 
+    /**
+     * To product product.
+     *
+     * @return the product
+     */
     public Product toProduct() {
         return Product.builder()
                 .category(Category.builder()

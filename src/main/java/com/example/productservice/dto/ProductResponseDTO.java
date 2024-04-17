@@ -4,6 +4,9 @@ import com.example.productservice.models.Category;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Product response dto.
+ */
 @Builder
 @Data
 public class ProductResponseDTO {

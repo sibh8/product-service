@@ -12,11 +12,19 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Fake store service.
+ */
 @Service
 public class FakeStoreService implements ProductService {
 
     private RestTemplate restTemplate;
 
+    /**
+     * Instantiates a new Fake store service.
+     *
+     * @param restTemplate the rest template
+     */
     public FakeStoreService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }

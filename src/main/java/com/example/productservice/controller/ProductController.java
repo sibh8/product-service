@@ -11,15 +11,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Product controller.
+ */
 @RestController
 public class ProductController {
 
     private ProductService productService;
 
+    /**
+     * Instantiates a new Product controller.
+     *
+     * @param productService the product service
+     */
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+    /**
+     * Gets all products.
+     *
+     * @return the all products
+     */
     @GetMapping("/products")
     public List<ProductResponseDTO> getAllProducts() {
         List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();
@@ -40,6 +53,12 @@ public class ProductController {
         return productsResponseDTO;
     }
 
+    /**
+     * Gets product by id.
+     *
+     * @param id the id
+     * @return the product by id
+     */
     @GetMapping("/products/{id}")
     public ProductResponseDTO getProductById(@PathVariable("id") Integer id) {
         var product = productService.getProductById(id);
@@ -56,11 +75,22 @@ public class ProductController {
         return productResponseDTO;
     }
 
+    /**
+     * Create product product.
+     *
+     * @param createProductRequestDTO the create product request dto
+     * @return the product
+     */
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDTO createProductRequestDTO) {
         return productService.createProduct(createProductRequestDTO);
     }
 
+    /**
+     * Gets all categories.
+     *
+     * @return the all categories
+     */
     @GetMapping("/categories")
     public List<CategoryResponseDTO> getAllCategories() {
         List<CategoryResponseDTO> categoriesResponse = new ArrayList<>();
@@ -71,6 +101,12 @@ public class ProductController {
         return categoriesResponse;
     }
 
+    /**
+     * Gets products in specifig category.
+     *
+     * @param categoryName the category name
+     * @return the products in specifig category
+     */
     @GetMapping("/products/category/{categoryName}")
     public List<ProductResponseDTO> getProductsInSpecifigCategory(@PathVariable("categoryName") String categoryName) {
         List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();

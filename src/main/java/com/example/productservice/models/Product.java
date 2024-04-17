@@ -3,6 +3,9 @@ package com.example.productservice.models;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * The type Product.
+ */
 @Data
 @Builder
 public class Product {
