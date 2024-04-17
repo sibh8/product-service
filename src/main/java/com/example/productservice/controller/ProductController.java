@@ -25,16 +25,16 @@ public class ProductController {
         List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();
         List<Product> products = productService.getAllProducts();
 
-        for(Product product: products){
+        for (Product product : products) {
             productsResponseDTO.add(ProductResponseDTO.builder()
-                            .imageURL(product.getImageURL())
-                            .id(product.getId())
-                            .category(Category.builder()
-                                    .name(product.getCategory().getName())
-                                    .build())
-                            .description(product.getDescription())
-                            .price(product.getPrice())
-                            .title(product.getTitle())
+                    .imageURL(product.getImageURL())
+                    .id(product.getId())
+                    .category(Category.builder()
+                            .name(product.getCategory().getName())
+                            .build())
+                    .description(product.getDescription())
+                    .price(product.getPrice())
+                    .title(product.getTitle())
                     .build());
         }
         return productsResponseDTO;
@@ -62,12 +62,29 @@ public class ProductController {
     }
 
     @GetMapping("/categories")
-    public List<CategoryResponseDTO> getAllCategories(){
-        List<CategoryResponseDTO> categoriesResponse =  new ArrayList<>();
-        List<Category> categories =  productService.getAllCategories();
-        for(Category category: categories){
+    public List<CategoryResponseDTO> getAllCategories() {
+        List<CategoryResponseDTO> categoriesResponse = new ArrayList<>();
+        List<Category> categories = productService.getAllCategories();
+        for (Category category : categories) {
             categoriesResponse.add(CategoryResponseDTO.builder().categoryName(category.getName()).build());
         }
         return categoriesResponse;
+    }
+
+    @GetMapping("/products/category/{categoryName}")
+    public List<ProductResponseDTO> getProductsInSpecifigCategory(@PathVariable("categoryName") String categoryName) {
+        List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();
+        List<Product> products = productService.getProductsInSpecificCategory(categoryName);
+        for (Product product : products) {
+            productsResponseDTO.add(ProductResponseDTO.builder()
+                    .title(product.getTitle())
+                    .id(product.getId())
+                    .price(product.getPrice())
+                    .description(product.getDescription())
+                    .imageURL(product.getImageURL())
+                    .build());
+        }
+
+        return productsResponseDTO;
     }
 }

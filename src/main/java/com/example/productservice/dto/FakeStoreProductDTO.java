@@ -16,7 +16,7 @@ public class FakeStoreProductDTO {
     private String image;
 
 
-    public Product toProduct(){
+    public Product toProduct() {
         return Product.builder()
                 .category(Category.builder()
                         .name(category)
