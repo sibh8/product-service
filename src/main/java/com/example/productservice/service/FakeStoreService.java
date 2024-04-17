@@ -97,4 +97,20 @@ public class FakeStoreService implements ProductService {
 
         return products;
     }
+
+    @Override
+    public Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO) {
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/"+productId, createProductRequestDTO, FakeStoreProductDTO.class);
+        var product = Product.builder()
+                .category(Category.builder()
+                        .name(fakeStoreProductDTO.getCategory())
+                        .build())
+                .description(fakeStoreProductDTO.getDescription())
+                .price(fakeStoreProductDTO.getPrice())
+                .title(fakeStoreProductDTO.getTitle())
+                .imageURL(fakeStoreProductDTO.getImage())
+                .id(fakeStoreProductDTO.getId())
+                .build();
+        return product;
+    }
 }

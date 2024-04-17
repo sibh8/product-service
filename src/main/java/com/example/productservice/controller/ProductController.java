@@ -123,4 +123,29 @@ public class ProductController {
 
         return productsResponseDTO;
     }
+
+    /**
+     * Update product product response dto.
+     *
+     * @param productId               the product id
+     * @param createProductRequestDTO the create product request dto
+     * @return the product response dto
+     */
+    @PutMapping("/product/{id}")
+    public ProductResponseDTO updateProduct(@PathVariable("id") Integer productId,
+                                 @RequestBody CreateProductRequestDTO createProductRequestDTO) {
+
+        Product product = productService.updateProduct(productId, createProductRequestDTO);
+
+        var productResponseDTO = ProductResponseDTO.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .imageURL(product.getImageURL())
+                .category(product.getCategory())
+                .build();
+
+        return productResponseDTO;
+    }
 }

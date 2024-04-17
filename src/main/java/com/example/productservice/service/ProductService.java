@@ -47,4 +47,13 @@ public interface ProductService {
      * @return the products in specific category
      */
     List<Product> getProductsInSpecificCategory(String categoryName);
+
+    /**
+     * Update product product.
+     *
+     * @param productId               the product id
+     * @param createProductRequestDTO the create product request dto
+     * @return the product
+     */
+    Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO);
 }
