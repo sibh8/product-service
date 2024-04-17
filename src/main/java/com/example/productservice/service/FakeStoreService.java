@@ -1,6 +1,7 @@
 package com.example.productservice.service;
 
 import com.example.productservice.dto.CreateProductRequestDTO;
+import com.example.productservice.dto.FakeStoreCategoryDTO;
 import com.example.productservice.dto.FakeStoreProductDTO;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
@@ -59,5 +60,15 @@ public class FakeStoreService implements ProductService{
 
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.postForEntity("https://fakestoreapi.com/products",fakeStoreProductDTO, FakeStoreProductDTO.class);
         return responseEntity.getBody().toProduct();
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        List<Category> categories = new ArrayList<>();
+        FakeStoreCategoryDTO[] fakeStoresCategoryDTO = restTemplate.getForObject("https://fakestoreapi.com/products/categories", FakeStoreCategoryDTO[].class);
+        for(FakeStoreCategoryDTO fakeStoreCategoryDTO: fakeStoresCategoryDTO){
+            categories.add(Category.builder().name(fakeStoreCategoryDTO.getCategory()).build());
+        }
+        return categories;
     }
 }
