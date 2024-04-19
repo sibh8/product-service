@@ -3,6 +3,7 @@ package com.example.productservice.service;
 import com.example.productservice.dto.CreateProductRequestDTO;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 

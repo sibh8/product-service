@@ -3,8 +3,10 @@ package com.example.productservice.service;
 import com.example.productservice.dto.CreateProductRequestDTO;
 import com.example.productservice.dto.FakeStoreCategoryDTO;
 import com.example.productservice.dto.FakeStoreProductDTO;
+import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,6 +34,10 @@ public class FakeStoreService implements ProductService {
     public Product getProductById(Integer id) {
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
         var fakeStoreProductResponseDTO = responseEntity.getBody();
+
+        if(fakeStoreProductResponseDTO == null)
+            return null;
+
         return fakeStoreProductResponseDTO.toProduct();
     }
 
@@ -67,6 +73,7 @@ public class FakeStoreService implements ProductService {
                 .build();
 
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.postForEntity("https://fakestoreapi.com/products", fakeStoreProductDTO, FakeStoreProductDTO.class);
+
         return responseEntity.getBody().toProduct();
     }
 
