@@ -2,7 +2,6 @@ package com.example.productservice.controller;
 
 import com.example.productservice.dto.CategoryResponseDTO;
 import com.example.productservice.dto.CreateProductRequestDTO;
-import com.example.productservice.dto.ErrorDTO;
 import com.example.productservice.dto.ProductResponseDTO;
 import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
