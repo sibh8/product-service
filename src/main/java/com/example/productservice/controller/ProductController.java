@@ -3,9 +3,12 @@ package com.example.productservice.controller;
 import com.example.productservice.dto.CategoryResponseDTO;
 import com.example.productservice.dto.CreateProductRequestDTO;
 import com.example.productservice.dto.ProductResponseDTO;
+import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -60,8 +63,12 @@ public class ProductController {
      * @return the product by id
      */
     @GetMapping("/products/{id}")
-    public ProductResponseDTO getProductById(@PathVariable("id") Integer id) {
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") Integer id) throws ProductNotFoundException {
         var product = productService.getProductById(id);
+
+        if(product == null){
+            throw new ProductNotFoundException();
+        }
 
         var productResponseDTO = ProductResponseDTO.builder()
                 .id(product.getId())
@@ -72,7 +79,7 @@ public class ProductController {
                 .imageURL(product.getImageURL())
                 .build();
 
-        return productResponseDTO;
+        return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
     }
 
     /**
@@ -108,9 +115,13 @@ public class ProductController {
      * @return the products in specifig category
      */
     @GetMapping("/products/category/{categoryName}")
-    public List<ProductResponseDTO> getProductsInSpecifigCategory(@PathVariable("categoryName") String categoryName) {
+    public ResponseEntity<List<?>> getProductsInSpecifigCategory(@PathVariable("categoryName") String categoryName) throws ProductNotFoundException {
         List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();
         List<Product> products = productService.getProductsInSpecificCategory(categoryName);
+        if(products.size() == 0){
+//            return new ResponseEntity(new ArrayList<>(), HttpStatus.NO_CONTENT);
+            throw new ProductNotFoundException();
+        }
         for (Product product : products) {
             productsResponseDTO.add(ProductResponseDTO.builder()
                     .title(product.getTitle())
@@ -121,7 +132,7 @@ public class ProductController {
                     .build());
         }
 
-        return productsResponseDTO;
+        return new ResponseEntity<>(productsResponseDTO, HttpStatus.OK);
     }
 
     /**

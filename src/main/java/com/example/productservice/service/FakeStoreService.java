@@ -32,6 +32,10 @@ public class FakeStoreService implements ProductService {
     public Product getProductById(Integer id) {
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
         var fakeStoreProductResponseDTO = responseEntity.getBody();
+
+        if(fakeStoreProductResponseDTO == null)
+            return null;
+
         return fakeStoreProductResponseDTO.toProduct();
     }
 
@@ -67,6 +71,7 @@ public class FakeStoreService implements ProductService {
                 .build();
 
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.postForEntity("https://fakestoreapi.com/products", fakeStoreProductDTO, FakeStoreProductDTO.class);
+
         return responseEntity.getBody().toProduct();
     }
 
