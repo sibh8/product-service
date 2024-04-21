@@ -25,7 +25,8 @@ public class FakeStoreProductDTO {
      * @return the product
      */
     public Product toProduct() {
-        return Product.builder()
+        var product = Product.builder()
+                .id(id)
                 .category(Category.builder()
                         .name(category)
                         .build())
@@ -33,7 +34,8 @@ public class FakeStoreProductDTO {
                 .description(description)
                 .price(price)
                 .title(title)
-                .id(id)
                 .build();
+
+        return product;
     }
 }

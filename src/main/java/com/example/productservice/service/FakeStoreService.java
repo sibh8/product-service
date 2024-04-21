@@ -45,8 +45,7 @@ public class FakeStoreService implements ProductService {
         FakeStoreProductDTO[] fakeStoreProductsDTO = restTemplate.getForObject("https://fakestoreapi.com/products", FakeStoreProductDTO[].class);
 
         for (FakeStoreProductDTO fakeStoreProductDTO : fakeStoreProductsDTO) {
-            products.add(Product.builder()
-                    .id(fakeStoreProductDTO.getId())
+            var product = Product.builder()
                     .imageURL(fakeStoreProductDTO.getImage())
                     .title(fakeStoreProductDTO.getTitle())
                     .price(fakeStoreProductDTO.getPrice())
@@ -54,7 +53,10 @@ public class FakeStoreService implements ProductService {
                     .category(Category.builder()
                             .name(fakeStoreProductDTO.getCategory())
                             .build())
-                    .build());
+                    .id(fakeStoreProductDTO.getId())
+                    .build();
+
+            products.add(product);
         }
 
         return products;
@@ -91,13 +93,18 @@ public class FakeStoreService implements ProductService {
         FakeStoreProductDTO[] fakeStoreProductsDTO = restTemplate.getForObject("https://fakestoreapi.com/products/category/" + categoryName, FakeStoreProductDTO[].class);
 
         for (FakeStoreProductDTO fakeStoreProductDTO : fakeStoreProductsDTO) {
-            products.add(Product.builder()
+            var product = Product.builder()
                     .id(fakeStoreProductDTO.getId())
                     .imageURL(fakeStoreProductDTO.getImage())
                     .title(fakeStoreProductDTO.getTitle())
                     .price(fakeStoreProductDTO.getPrice())
                     .description(fakeStoreProductDTO.getDescription())
-                    .build());
+                    .category(Category.builder()
+                            .name(fakeStoreProductDTO.getCategory())
+                            .build())
+                    .build();
+
+            products.add(product);
         }
 
         return products;
@@ -106,7 +113,9 @@ public class FakeStoreService implements ProductService {
     @Override
     public Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO) {
         FakeStoreProductDTO fakeStoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/"+productId, createProductRequestDTO, FakeStoreProductDTO.class);
+
         var product = Product.builder()
+                .id(fakeStoreProductDTO.getId())
                 .category(Category.builder()
                         .name(fakeStoreProductDTO.getCategory())
                         .build())
@@ -114,8 +123,8 @@ public class FakeStoreService implements ProductService {
                 .price(fakeStoreProductDTO.getPrice())
                 .title(fakeStoreProductDTO.getTitle())
                 .imageURL(fakeStoreProductDTO.getImage())
-                .id(fakeStoreProductDTO.getId())
                 .build();
+
         return product;
     }
 }
