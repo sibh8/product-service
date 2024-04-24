@@ -127,4 +127,9 @@ public class FakeStoreService implements ProductService {
 
         return product;
     }
+
+    @Override
+    public void deleteProduct(Integer id) {
+
+    }
 }

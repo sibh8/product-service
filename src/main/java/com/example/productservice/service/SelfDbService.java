@@ -90,4 +90,9 @@ public class SelfDbService implements ProductService {
                 .build());
         return productReepository.save(product);
     }
+
+    @Override
+    public void deleteProduct(Integer id) {
+        productReepository.deleteById(id);
+    }
 }

@@ -20,7 +20,7 @@ public class Product extends ProductCommon {
     private double price;
     private String imageURL;
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private Category category;
 
     /**

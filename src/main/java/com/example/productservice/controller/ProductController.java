@@ -7,6 +7,7 @@ import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -135,5 +136,10 @@ public class ProductController {
         Product product = productService.updateProduct(productId, createProductRequestDTO);
 
         return product.toProductResponseDTO();
+    }
+
+    @PostMapping("/product/delete/{id}")
+    public void deleteProduct(@PathVariable("id") Integer id){
+        productService.deleteProduct(id);
     }
 }
