@@ -7,6 +7,7 @@ import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +21,14 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     /**
      * Instantiates a new Product controller.
      *
      * @param productService the product service
      */
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("selfdbproductservice") ProductService productService) {
         this.productService = productService;
     }
 
@@ -42,16 +43,7 @@ public class ProductController {
         List<Product> products = productService.getAllProducts();
 
         for (Product product : products) {
-            productsResponseDTO.add(ProductResponseDTO.builder()
-                    .imageURL(product.getImageURL())
-                    .id(product.getId())
-                    .category(Category.builder()
-                            .name(product.getCategory().getName())
-                            .build())
-                    .description(product.getDescription())
-                    .price(product.getPrice())
-                    .title(product.getTitle())
-                    .build());
+            productsResponseDTO.add(product.toProductResponseDTO());
         }
         return productsResponseDTO;
     }
@@ -61,23 +53,17 @@ public class ProductController {
      *
      * @param id the id
      * @return the product by id
+     * @throws ProductNotFoundException the product not found exception
      */
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") Integer id) throws ProductNotFoundException {
         var product = productService.getProductById(id);
 
-        if(product == null){
+        if (product == null) {
             throw new ProductNotFoundException();
         }
 
-        var productResponseDTO = ProductResponseDTO.builder()
-                .id(product.getId())
-                .title(product.getTitle())
-                .price(product.getPrice())
-                .description(product.getDescription())
-                .category(product.getCategory())
-                .imageURL(product.getImageURL())
-                .build();
+        var productResponseDTO = product.toProductResponseDTO();
 
         return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
     }
@@ -103,7 +89,12 @@ public class ProductController {
         List<CategoryResponseDTO> categoriesResponse = new ArrayList<>();
         List<Category> categories = productService.getAllCategories();
         for (Category category : categories) {
-            categoriesResponse.add(CategoryResponseDTO.builder().categoryName(category.getName()).build());
+            categoriesResponse.add(CategoryResponseDTO.builder()
+                    .id(category.getId())
+                    .categoryName(category.getName())
+                    .updatedAt(category.getUpdatedAt())
+                    .createdAt(category.getCreatedAt())
+                    .build());
         }
         return categoriesResponse;
     }
@@ -113,23 +104,18 @@ public class ProductController {
      *
      * @param categoryName the category name
      * @return the products in specifig category
+     * @throws ProductNotFoundException the product not found exception
      */
     @GetMapping("/products/category/{categoryName}")
     public ResponseEntity<List<?>> getProductsInSpecifigCategory(@PathVariable("categoryName") String categoryName) throws ProductNotFoundException {
         List<ProductResponseDTO> productsResponseDTO = new ArrayList<>();
         List<Product> products = productService.getProductsInSpecificCategory(categoryName);
-        if(products.size() == 0){
+        if (products.size() == 0) {
 //            return new ResponseEntity(new ArrayList<>(), HttpStatus.NO_CONTENT);
             throw new ProductNotFoundException();
         }
         for (Product product : products) {
-            productsResponseDTO.add(ProductResponseDTO.builder()
-                    .title(product.getTitle())
-                    .id(product.getId())
-                    .price(product.getPrice())
-                    .description(product.getDescription())
-                    .imageURL(product.getImageURL())
-                    .build());
+            productsResponseDTO.add(product.toProductResponseDTO());
         }
 
         return new ResponseEntity<>(productsResponseDTO, HttpStatus.OK);
@@ -144,19 +130,10 @@ public class ProductController {
      */
     @PutMapping("/product/{id}")
     public ProductResponseDTO updateProduct(@PathVariable("id") Integer productId,
-                                 @RequestBody CreateProductRequestDTO createProductRequestDTO) {
+                                            @RequestBody CreateProductRequestDTO createProductRequestDTO) {
 
         Product product = productService.updateProduct(productId, createProductRequestDTO);
 
-        var productResponseDTO = ProductResponseDTO.builder()
-                .id(product.getId())
-                .title(product.getTitle())
-                .price(product.getPrice())
-                .description(product.getDescription())
-                .imageURL(product.getImageURL())
-                .category(product.getCategory())
-                .build();
-
-        return productResponseDTO;
+        return product.toProductResponseDTO();
     }
 }

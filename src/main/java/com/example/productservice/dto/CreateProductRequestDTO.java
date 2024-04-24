@@ -1,5 +1,7 @@
 package com.example.productservice.dto;
 
+import com.example.productservice.models.Category;
+import com.example.productservice.models.Product;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,4 +16,18 @@ public class CreateProductRequestDTO {
     private Double price;
     private String category;
     private String image;
+
+    /**
+     * To product product.
+     *
+     * @return the product
+     */
+    public Product toProduct() {
+        return Product.builder()
+                .title(title)
+                .price(price)
+                .description(description)
+                .imageURL(image)
+                .build();
+    }
 }
