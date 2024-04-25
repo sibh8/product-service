@@ -44,22 +44,22 @@ public class SelfDbService implements ProductService {
     public Product createProduct(CreateProductRequestDTO createProductRequestDTO) {
         // Check if the Product exists
         var product = productReepository.findByTitle(createProductRequestDTO.getTitle());
-        if(product == null){
+        if (product == null) {
             product = createProductRequestDTO.toProduct();
             product.setCreatedAt(Instant.now());
-        }else{
+        } else {
             product.setUpdatedAt(Instant.now());
         }
 
         // Check if the category exists in database if exists, don't create a new entry.
         var category = categoryRepository.findByName(createProductRequestDTO.getCategory());
-        if(category == null){
+        if (category == null) {
             category = Category.builder()
                     .name(createProductRequestDTO.getCategory())
                     .createdAt(Instant.now())
                     .name(createProductRequestDTO.getCategory())
                     .build();
-        }else{
+        } else {
             category.setUpdatedAt(Instant.now());
         }
         product.setCategory(category);

@@ -7,8 +7,8 @@ import com.example.productservice.exception.ProductNotFoundException;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -139,7 +139,15 @@ public class ProductController {
     }
 
     @PostMapping("/product/delete/{id}")
-    public void deleteProduct(@PathVariable("id") Integer id){
-        productService.deleteProduct(id);
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
+        var product = productService.getProductById(id);
+        if (product == null) {
+            var message = "Record with ID " + id + " does not exist in database";
+            return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
+        } else {
+            productService.deleteProduct(id);
+            var message = "Record with ID " + id + " is now deleted";
+            return new ResponseEntity<>(message, HttpStatus.OK);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.example.productservice.dto;
 
-import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import lombok.Builder;
 import lombok.Data;
