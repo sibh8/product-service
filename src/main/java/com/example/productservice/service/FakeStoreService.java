@@ -15,10 +15,10 @@ import java.util.List;
 /**
  * The type Fake store service.
  */
-@Service
+@Service("fakestoreproductservice")
 public class FakeStoreService implements ProductService {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     /**
      * Instantiates a new Fake store service.
@@ -33,7 +33,7 @@ public class FakeStoreService implements ProductService {
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakeStoreProductDTO.class);
         var fakeStoreProductResponseDTO = responseEntity.getBody();
 
-        if(fakeStoreProductResponseDTO == null)
+        if (fakeStoreProductResponseDTO == null)
             return null;
 
         return fakeStoreProductResponseDTO.toProduct();
@@ -112,7 +112,7 @@ public class FakeStoreService implements ProductService {
 
     @Override
     public Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO) {
-        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/"+productId, createProductRequestDTO, FakeStoreProductDTO.class);
+        FakeStoreProductDTO fakeStoreProductDTO = restTemplate.patchForObject("https://fakestoreapi.com/products/" + productId, createProductRequestDTO, FakeStoreProductDTO.class);
 
         var product = Product.builder()
                 .id(fakeStoreProductDTO.getId())
@@ -126,5 +126,10 @@ public class FakeStoreService implements ProductService {
                 .build();
 
         return product;
+    }
+
+    @Override
+    public void deleteProduct(Integer id) {
+
     }
 }

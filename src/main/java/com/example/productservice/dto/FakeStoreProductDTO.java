@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 @Data
 public class FakeStoreProductDTO {
-    private Long id;
+    private Integer id;
     private String title;
     private Double price;
     private String category;

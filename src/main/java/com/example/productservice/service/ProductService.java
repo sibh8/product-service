@@ -56,4 +56,6 @@ public interface ProductService {
      * @return the product
      */
     Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO);
+
+    void deleteProduct(Integer id);
 }
