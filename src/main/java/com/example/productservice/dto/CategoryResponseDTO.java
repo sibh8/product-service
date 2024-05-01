@@ -14,9 +14,8 @@ public class CategoryResponseDTO extends ProductCommon {
     private String categoryName;
 
     @Builder
-
-    public CategoryResponseDTO(Integer id, Instant createdAt, Instant updatedAt, String categoryName) {
-        super(id, createdAt, updatedAt);
+    public CategoryResponseDTO(Integer id, Instant createdAt, Instant updatedAt, String createdByUserId, String categoryName) {
+        super(id, createdAt, updatedAt, createdByUserId);
         this.categoryName = categoryName;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.productservice.models;
 
 import com.example.productservice.dto.ProductResponseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +22,7 @@ public class Product extends ProductCommon {
     private String imageURL;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JsonIgnore
     private Category category;
 
     /**
@@ -36,8 +38,8 @@ public class Product extends ProductCommon {
      * @param category    the category
      */
     @Builder
-    public Product(Integer id, Instant createdAt, Instant updatedAt, String title, String description, double price, String imageURL, Category category) {
-        super(id, createdAt, updatedAt);
+    public Product(Integer id, Instant createdAt, Instant updatedAt, String createdByUserId, String title, String description, double price, String imageURL, Category category) {
+        super(id, createdAt, updatedAt, createdByUserId);
         this.title = title;
         this.description = description;
         this.price = price;
