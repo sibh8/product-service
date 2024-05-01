@@ -23,4 +23,5 @@ public class ProductCommon {
     private Integer id;
     private Instant createdAt;
     private Instant updatedAt;
+    private String createdByUserId;
 }

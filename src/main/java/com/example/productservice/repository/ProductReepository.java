@@ -1,7 +1,10 @@
 package com.example.productservice.repository;
 
 import com.example.productservice.models.Product;
+import com.example.productservice.repository.projection.ProductIdAndTitleProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -28,4 +31,19 @@ public interface ProductReepository extends JpaRepository<Product, Integer> {
     List<Product> findAllByCategory_Name(String categoryName);
 
     Product findByTitle(String title);
+
+    @Query("select p from Product p where p.id=:id and p.title=:title")
+    Product getAllProductsByTitleAndId(@Param("id") Integer id, @Param("title") String title);
+
+    // Get title and ID by price
+
+    @Query ("select p.id as id, p.title as title from Product p where p.price = :price")
+    public List<ProductIdAndTitleProjection> getTitleAndIdByPrice(@Param("price") Double price);
+
+    @Query ("select p from Product p where p.price = :price")
+    public List<Product> getProductsByPrice(@Param("price") Double price);
+
+    @Query(value = "select id, title from product where price=:price",
+    nativeQuery = true)
+    List<ProductIdAndTitleProjection> retriveIdAndTitleFromNative(@Param("price") Double price);
 }

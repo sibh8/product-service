@@ -1,10 +1,13 @@
 package com.example.productservice.models;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * The type Category.
@@ -13,6 +16,10 @@ import java.time.Instant;
 @Entity
 public class Category extends ProductCommon {
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    List<Product> products;
+
 
     /**
      * Instantiates a new Category.
@@ -23,9 +30,10 @@ public class Category extends ProductCommon {
      * @param name      the name
      */
     @Builder
-    public Category(Integer id, Instant createdAt, Instant updatedAt, String name) {
-        super(id, createdAt, updatedAt);
+    public Category(Integer id, Instant createdAt, Instant updatedAt, String createdByUserId, String name, List<Product> products) {
+        super(id, createdAt, updatedAt, createdByUserId);
         this.name = name;
+        this.products = products;
     }
 
     /**
