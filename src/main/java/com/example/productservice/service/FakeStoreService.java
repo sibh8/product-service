@@ -5,6 +5,7 @@ import com.example.productservice.dto.FakeStoreCategoryDTO;
 import com.example.productservice.dto.FakeStoreProductDTO;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -131,5 +132,10 @@ public class FakeStoreService implements ProductService {
     @Override
     public void deleteProduct(Integer id) {
 
+    }
+
+    @Override
+    public Page<Product> getPaginatedProduct(Integer pageNo, Integer pageSize) {
+        return null;
     }
 }

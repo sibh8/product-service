@@ -17,6 +17,9 @@ import java.util.List;
 public class Category extends ProductCommon {
     private String name;
 
+    /**
+     * The Products.
+     */
     @OneToMany(mappedBy = "category")
     List<Product> products;
 
@@ -24,10 +27,12 @@ public class Category extends ProductCommon {
     /**
      * Instantiates a new Category.
      *
-     * @param id        the id
-     * @param createdAt the created at
-     * @param updatedAt the updated at
-     * @param name      the name
+     * @param id              the id
+     * @param createdAt       the created at
+     * @param updatedAt       the updated at
+     * @param createdByUserId the created by user id
+     * @param name            the name
+     * @param products        the products
      */
     @Builder
     public Category(Integer id, Instant createdAt, Instant updatedAt, String createdByUserId, String name, List<Product> products) {

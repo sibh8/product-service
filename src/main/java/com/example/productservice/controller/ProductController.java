@@ -9,6 +9,7 @@ import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -138,6 +139,12 @@ public class ProductController {
         return product.toProductResponseDTO();
     }
 
+    /**
+     * Delete product response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @PostMapping("/product/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
         var product = productService.getProductById(id);
@@ -149,5 +156,14 @@ public class ProductController {
             var message = "Record with ID " + id + " is now deleted";
             return new ResponseEntity<>(message, HttpStatus.OK);
         }
+    }
+
+
+    @GetMapping("/products/{pageNo}/{pageSize}")
+    public ResponseEntity<List<Product>> getPaginatedProduct(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
+
+        Page<Product> products = productService.getPaginatedProduct(pageNo, pageSize);
+
+        return ResponseEntity.ok(products.getContent());
     }
 }
