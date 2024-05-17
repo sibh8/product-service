@@ -16,6 +16,15 @@
 			"response": []
 		},
 		{
+			"name": "Delete Product By id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": "{{BASE_URL}}/products/1"
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Products",
 			"request": {
 				"method": "GET",
@@ -25,11 +34,29 @@
 			"response": []
 		},
 		{
+			"name": "Get Paginated Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/products/0/4"
+			},
+			"response": []
+		},
+		{
 			"name": "Get All Categories",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": "{{BASE_URL}}/categories"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{BASE_URL}}/products/category/electric"
 			},
 			"response": []
 		},

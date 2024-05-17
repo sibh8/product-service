@@ -3,6 +3,8 @@ package com.example.productservice.service;
 import com.example.productservice.dto.CreateProductRequestDTO;
 import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -57,5 +59,12 @@ public interface ProductService {
      */
     Product updateProduct(Integer productId, CreateProductRequestDTO createProductRequestDTO);
 
+    /**
+     * Delete product.
+     *
+     * @param id the id
+     */
     void deleteProduct(Integer id);
+
+    Page<Product> getPaginatedProduct(Integer pageNo, Integer pageSize);
 }

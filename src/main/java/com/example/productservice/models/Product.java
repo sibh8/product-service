@@ -28,14 +28,15 @@ public class Product extends ProductCommon {
     /**
      * Instantiates a new Product.
      *
-     * @param id          the id
-     * @param createdAt   the created at
-     * @param updatedAt   the updated at
-     * @param title       the title
-     * @param description the description
-     * @param price       the price
-     * @param imageURL    the image url
-     * @param category    the category
+     * @param id              the id
+     * @param createdAt       the created at
+     * @param updatedAt       the updated at
+     * @param createdByUserId the created by user id
+     * @param title           the title
+     * @param description     the description
+     * @param price           the price
+     * @param imageURL        the image url
+     * @param category        the category
      */
     @Builder
     public Product(Integer id, Instant createdAt, Instant updatedAt, String createdByUserId, String title, String description, double price, String imageURL, Category category) {
@@ -54,6 +55,11 @@ public class Product extends ProductCommon {
         super();
     }
 
+    /**
+     * To product response dto product response dto.
+     *
+     * @return the product response dto
+     */
     public ProductResponseDTO toProductResponseDTO() {
         return ProductResponseDTO.builder()
                 .imageURL(imageURL)

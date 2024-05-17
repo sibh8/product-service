@@ -5,6 +5,10 @@ import com.example.productservice.models.Category;
 import com.example.productservice.models.Product;
 import com.example.productservice.repository.CategoryRepository;
 import com.example.productservice.repository.ProductReepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -94,5 +98,14 @@ public class SelfDbService implements ProductService {
     @Override
     public void deleteProduct(Integer id) {
         productReepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Product> getPaginatedProduct(Integer pageNo, Integer pageSize) {
+        Pageable pageAble = PageRequest.of(pageNo, pageSize);
+
+        Page<Product> productPage = productReepository.findAll(pageAble);
+
+        return productPage;
     }
 }
