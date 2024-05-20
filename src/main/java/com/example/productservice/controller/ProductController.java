@@ -9,6 +9,8 @@ import com.example.productservice.models.Product;
 import com.example.productservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,8 +59,8 @@ public class ProductController {
      * @return the product by id
      * @throws ProductNotFoundException the product not found exception
      */
-    @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") Integer id) throws ProductNotFoundException {
+    @GetMapping("/productsresponse/{id}")
+    public ResponseEntity<ProductResponseDTO> getProductRespoonseById(@PathVariable("id") Integer id) throws ProductNotFoundException {
         var product = productService.getProductById(id);
 
         if (product == null) {
@@ -71,11 +73,28 @@ public class ProductController {
     }
 
     /**
+     * Gets product by id.
+     *
+     * @param id the id
+     * @return the product by id
+     */
+    @Cacheable(value = "product")
+    @GetMapping("/products/{id}")
+    public ProductResponseDTO getProductById(@PathVariable("id") Integer id){
+        var product = productService.getProductById(id);
+
+        var productResponseDTO = product.toProductResponseDTO();
+
+        return productResponseDTO;
+    }
+
+    /**
      * Create product product.
      *
      * @param createProductRequestDTO the create product request dto
      * @return the product
      */
+    @CachePut(value = "product", key = "#dto.title")
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDTO createProductRequestDTO) {
         return productService.createProduct(createProductRequestDTO);
@@ -159,6 +178,13 @@ public class ProductController {
     }
 
 
+    /**
+     * Gets paginated product.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the paginated product
+     */
     @GetMapping("/products/{pageNo}/{pageSize}")
     public ResponseEntity<List<Product>> getPaginatedProduct(@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize){
 

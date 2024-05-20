@@ -6,6 +6,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Data
 @Entity
-public class Category extends ProductCommon {
+public class Category extends ProductCommon implements Serializable {
     private String name;
 
     /**

@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 /**
@@ -15,7 +16,7 @@ import java.time.Instant;
  */
 @Data
 @Entity
-public class Product extends ProductCommon {
+public class Product extends ProductCommon implements Serializable {
     private String title;
     private String description;
     private double price;

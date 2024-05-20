@@ -5,13 +5,14 @@ import com.example.productservice.models.ProductCommon;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 /**
  * The type Product response dto.
  */
 @Data
-public class ProductResponseDTO extends ProductCommon {
+public class ProductResponseDTO extends ProductCommon implements Serializable {
     private String title;
     private String description;
     private double price;
