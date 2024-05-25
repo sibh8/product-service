@@ -4,6 +4,7 @@ import com.example.productservice.dto.ProductResponseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class Product extends ProductCommon implements Serializable {
     private double price;
     private String imageURL;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JsonIgnore
     private Category category;
 

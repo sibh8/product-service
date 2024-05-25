@@ -21,7 +21,7 @@ public class Category extends ProductCommon implements Serializable {
     /**
      * The Products.
      */
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     List<Product> products;
 
 
