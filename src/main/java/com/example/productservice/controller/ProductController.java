@@ -94,7 +94,7 @@ public class ProductController {
      * @param createProductRequestDTO the create product request dto
      * @return the product
      */
-    @CachePut(value = "product", key = "#dto.title")
+    @CachePut(value = "product", key = "#createProductRequestDTO.title")
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDTO createProductRequestDTO) {
         return productService.createProduct(createProductRequestDTO);

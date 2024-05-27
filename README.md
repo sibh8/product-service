@@ -30,5 +30,5 @@ After executing these stpes, start the application and use the APIs in controlle
 To start redis, Execute the below command.
 
 ```
-docker run -p 6379:6379 -v $(pwd):/usr/local/etc/redis --name myredis redis redis-server /usr/local/etc/redis/redis.conf
+docker run -p 6379:6379 -v $(pwd):/usr/local/etc/redis --privileged --name myredis redis redis-server /usr/local/etc/redis/redis.conf
 ```
