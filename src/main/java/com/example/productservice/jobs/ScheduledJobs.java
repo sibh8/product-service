@@ -26,7 +26,7 @@ public class ScheduledJobs {
     /**
      * Getproduct details.
      */
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "2 * * * * *")
     public void getproductDetails(){
         List<String> products = productReepository.getAllProductTilesForCategory(1);
         System.out.println(products.toString());

@@ -4,10 +4,12 @@ import com.example.productservice.dto.ProductResponseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 /**
@@ -15,13 +17,13 @@ import java.time.Instant;
  */
 @Data
 @Entity
-public class Product extends ProductCommon {
+public class Product extends ProductCommon implements Serializable {
     private String title;
     private String description;
     private double price;
     private String imageURL;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JsonIgnore
     private Category category;
 

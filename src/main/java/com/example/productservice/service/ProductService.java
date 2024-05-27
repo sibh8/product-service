@@ -66,5 +66,12 @@ public interface ProductService {
      */
     void deleteProduct(Integer id);
 
+    /**
+     * Gets paginated product.
+     *
+     * @param pageNo   the page no
+     * @param pageSize the page size
+     * @return the paginated product
+     */
     Page<Product> getPaginatedProduct(Integer pageNo, Integer pageSize);
 }
