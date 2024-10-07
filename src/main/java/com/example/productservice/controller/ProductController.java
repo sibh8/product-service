@@ -1,5 +1,6 @@
 package com.example.productservice.controller;
 
+import com.example.productservice.authcommons.AuthenticationCommons;
 import com.example.productservice.dto.CategoryResponseDTO;
 import com.example.productservice.dto.CreateProductRequestDTO;
 import com.example.productservice.dto.ProductResponseDTO;
@@ -26,14 +27,17 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final AuthenticationCommons authenticationCommons;
 
     /**
      * Instantiates a new Product controller.
      *
      * @param productService the product service
      */
-    public ProductController(@Qualifier("selfdbproductservice") ProductService productService) {
+    public ProductController(@Qualifier("selfdbproductservice") ProductService productService,
+                             AuthenticationCommons authenticationCommons) {
         this.productService = productService;
+        this.authenticationCommons = authenticationCommons;
     }
 
     /**
@@ -78,14 +82,23 @@ public class ProductController {
      * @param id the id
      * @return the product by id
      */
-    @Cacheable(value = "product")
+//    @Cacheable(value = "product")
     @GetMapping("/products/{id}")
-    public ProductResponseDTO getProductById(@PathVariable("id") Integer id){
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") Integer id,
+                                             @RequestHeader String authntoken){
         var product = productService.getProductById(id);
 
+        var userDto = authenticationCommons.validateToken(authntoken);
+
+        ResponseEntity<ProductResponseDTO> response =  null;
+
+        if(userDto == null){
+            response = new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            return response;
+        }
         var productResponseDTO = product.toProductResponseDTO();
 
-        return productResponseDTO;
+        return new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
     }
 
     /**
@@ -94,7 +107,7 @@ public class ProductController {
      * @param createProductRequestDTO the create product request dto
      * @return the product
      */
-    @CachePut(value = "product", key = "#createProductRequestDTO.title")
+//    @CachePut(value = "product", key = "#createProductRequestDTO.title")
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDTO createProductRequestDTO) {
         return productService.createProduct(createProductRequestDTO);
